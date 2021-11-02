@@ -10,14 +10,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:ruby-html-tag.helloWorld"
+    "onCommand:ruby-html-tag.addRubyRtTags"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "ruby-html-tag.helloWorld",
-        "title": "Hello World"
+        "command": "ruby-html-tag.addRubyRtTags",
+        "title": "Add Ruby and Rt Tags"
       }
     ]
   },
