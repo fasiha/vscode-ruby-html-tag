@@ -1,6 +1,14 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+
+async function moveAndSelect(moveLeft = 12, replaceLeft = 9) {
+  await vscode.commands.executeCommand(
+      'cursorMove', {to: 'right', by: 'character', value: 1});
+  await vscode.commands.executeCommand(
+      'cursorMove', {to: 'left', by: 'character', value: moveLeft});
+  await vscode.commands.executeCommand(
+      'cursorMove',
+      {to: 'left', by: 'character', value: replaceLeft, select: true});
+}
 
 // https://github.com/microsoft/vscode-extension-samples/blob/main/document-editing-sample/src/extension.ts
 // https://stackoverflow.com/questions/65248766/does-vs-code-extensions-api-support-changing-cursor-position
@@ -14,26 +22,30 @@ export function activate(context: vscode.ExtensionContext) {
           const selection = editor.selection;
           const text = document.getText(selection);
           if (text) {
+            // Case A: text selected
             editor.edit(editBuilder => {
               editBuilder.replace(
                   selection, `<ruby>${text}<rt>RUBY TEXT</rt></ruby>`);
             });
-            await vscode.commands.executeCommand(
-                'cursorMove', {to: 'right', by: 'character', value: 1});
-            await vscode.commands.executeCommand(
-                'cursorMove', {to: 'left', by: 'character', value: 12});
-            await vscode.commands.executeCommand(
-                'cursorMove',
-                {to: 'left', by: 'character', value: 9, select: true});
+            await moveAndSelect()
           } else {
-            const wordSelection =
-                document.getWordRangeAtPosition(selection.active);
-            if (wordSelection) {
-              const text = document.getText(wordSelection);
+            const range = document.getWordRangeAtPosition(selection.active);
+            if (range) {
+              // Case B: no selection but there's a word here
+              editor.selection = new vscode.Selection(range.start, range.end);
+              const text = document.getText(range);
               editor.edit(editBuilder => {
                 editBuilder.replace(
-                    wordSelection, `<ruby>${text}<rt>RUBY TEXT</rt></ruby>`);
+                    range, `<ruby>${text}<rt>RUBY TEXT</rt></ruby>`);
               });
+              await moveAndSelect()
+            } else {
+              // Case C: no selection and no word
+              editor.edit(editBuilder => {
+                editBuilder.replace(
+                    selection, `<ruby>RubyBase<rt>RubyText/rt></ruby>`);
+              });
+              await moveAndSelect(23, 8);
             }
           }
         }
