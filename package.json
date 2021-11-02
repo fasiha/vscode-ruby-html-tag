@@ -3,6 +3,9 @@
   "displayName": "ruby-html-tag",
   "description": "Wrap selections in <ruby> tags",
   "version": "0.0.1",
+  "repository": {
+    "url": "https://github.com/fasiha/vscode-ruby-html-tag"
+  },
   "engines": {
     "vscode": "^1.61.0"
   },

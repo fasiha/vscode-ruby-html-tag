@@ -1,70 +1,26 @@
-# ruby-html-tag README
+# ruby-html-tag for VS Code
 
-This is the README for your extension "ruby-html-tag". After writing up a brief description, we recommend including the following sections.
+This <ruby>extension<rt>very tiny</rt></ruby> makes it easier to deal with adding `<ruby>` HTML tags to your documents (HTML, Markdown, etc.). I'm not talking about the programming language, but the small text rendered above other text, typically used by documents in East Asian languages and called <ruby>ルビ文字<rt>ruby moji</rt></ruby>: see [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ruby) as well as [@kosamari](https://twitter.com/kosamari/status/743473313184419845).
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+1. Select a word.
+2. Open the [Command Palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) (⇧⌘P or Ctrl+Shift+P).
+3. Type "Add Ruby and Rt Tags" and hit Enter.
+4. Your word will be wrapped in `<ruby>` tags and the <ruby>ruby text<rt>this stuff</rt></ruby> is left selected for you to overwrite.
 
-For example if there is an image subfolder under your extension project workspace:
+If you skip step 1, i.e., don't select anything, we try to do something sensible:
+- if you're at a word, we select the entire word for you wrap it in `<ruby>` tags.
+- If there's no word at your cursor, we insert a blank `<ruby>` and `<rt>` tags.
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+![Example usage](./ruby.gif)
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+When the width of the window is *just right*, the "RUBY TEXT" isn't fully selected. Please help.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release.
