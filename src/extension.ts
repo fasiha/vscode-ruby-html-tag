@@ -13,17 +13,29 @@ export function activate(context: vscode.ExtensionContext) {
           const document = editor.document;
           const selection = editor.selection;
           const text = document.getText(selection);
-          editor.edit(editBuilder => {
-            editBuilder.replace(
-                selection, `<ruby>${text}<rt>RUBY TEXT</rt></ruby>`);
-          });
-          await vscode.commands.executeCommand(
-              'cursorMove', {to: 'right', by: 'character', value: 1});
-          await vscode.commands.executeCommand(
-              'cursorMove', {to: 'left', by: 'character', value: 12});
-          await vscode.commands.executeCommand(
-              'cursorMove',
-              {to: 'left', by: 'character', value: 9, select: true});
+          if (text) {
+            editor.edit(editBuilder => {
+              editBuilder.replace(
+                  selection, `<ruby>${text}<rt>RUBY TEXT</rt></ruby>`);
+            });
+            await vscode.commands.executeCommand(
+                'cursorMove', {to: 'right', by: 'character', value: 1});
+            await vscode.commands.executeCommand(
+                'cursorMove', {to: 'left', by: 'character', value: 12});
+            await vscode.commands.executeCommand(
+                'cursorMove',
+                {to: 'left', by: 'character', value: 9, select: true});
+          } else {
+            const wordSelection =
+                document.getWordRangeAtPosition(selection.active);
+            if (wordSelection) {
+              const text = document.getText(wordSelection);
+              editor.edit(editBuilder => {
+                editBuilder.replace(
+                    wordSelection, `<ruby>${text}<rt>RUBY TEXT</rt></ruby>`);
+              });
+            }
+          }
         }
       });
 
