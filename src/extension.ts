@@ -52,5 +52,34 @@ export function activate(context: vscode.ExtensionContext) {
       });
 
   context.subscriptions.push(disposable);
+
+  let copyWithoutRtOnlyRubyCommand = vscode.commands.registerCommand(
+      'ruby-html-tag.copyWithoutRtOnlyRuby', async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+          const document = editor.document;
+          const selection = editor.selection;
+          let text = document.getText(selection);
+
+          // If no selection, use the current line
+          if (!text) {
+            const line = document.lineAt(selection.active.line);
+            text = line.text;
+          }
+
+          // Remove <rp> and <rt> tags and their contents
+          text = text.replace(/<rp>.*?<\/rp>/g, '');
+          text = text.replace(/<rt>.*?<\/rt>/g, '');
+
+          // Remove <ruby> and </ruby> tags but keep contents
+          text = text.replace(/<\/?ruby>/g, '');
+
+          // Copy to clipboard
+          await vscode.env.clipboard.writeText(text);
+          vscode.window.showInformationMessage('Copied to clipboard!');
+        }
+      });
+
+  context.subscriptions.push(copyWithoutRtOnlyRubyCommand);
 }
 export function deactivate() {}
